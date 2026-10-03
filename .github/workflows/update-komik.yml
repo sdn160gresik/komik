@@ -1,5 +1,4 @@
 name: Update Daftar Komik
 on: push
 permissions: write-all
-jobs: {generate: {runs-on: ubuntu-latest, steps: [{run: 'echo "Workflow berhasil"'}]}}
-
+jobs: {generate: {runs-on: ubuntu-latest, steps: [{uses: actions/checkout@v4}, {run: python3 generate_komik.py}]}}
