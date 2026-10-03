@@ -1,4 +1,4 @@
-```yaml
+
 name: Update Daftar Komik
 
 on:
@@ -143,4 +143,4 @@ jobs:
             git push origin HEAD:main
 
           fi
-```
+
