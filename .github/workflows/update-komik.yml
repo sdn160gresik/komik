@@ -4,4 +4,4 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      -run:echo "Github Actions Berhasil"
+      - run: echo "Github Actions Berhasil"
