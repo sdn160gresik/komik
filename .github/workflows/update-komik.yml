@@ -1,146 +1,92 @@
-
 name: Update Daftar Komik
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "ipas/**"
+push:
+branches:
+- main
+paths:
+- 'ipas/**'
 
-  workflow_dispatch:
+workflow_dispatch:
 
 permissions:
-  contents: write
+contents: write
 
 jobs:
-  generate-komik-json:
+generate-komik-json:
+runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+```
+steps:
 
-    steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
+      persist-credentials: true
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: true
+  - name: Generate komik.json
+    shell: bash
+    run: |
+      python3 <<'PY'
+      import json
+      from pathlib import Path
 
-      - name: Generate komik.json
-        shell: bash
-        run: |
+      root = Path("ipas")
+      hasil = []
 
-          python3 <<'PY'
+      if root.exists():
+          for file in root.rglob("halaman-00.jpg"):
+              if file.is_file():
+                  path = file.as_posix()
+                  bagian = path.split("/")
 
-          import json
-          from pathlib import Path
+                  if len(bagian) >= 3:
+                      folder = "/".join(bagian[:-1])
 
-          root = Path("ipas")
+                      hasil.append({
+                          "folder": folder,
+                          "path": path,
+                          "file": "halaman-00.jpg"
+                      })
 
-          hasil = []
+      hasil.sort(
+          key=lambda x: x["folder"].lower()
+      )
 
+      output = {
+          "folder": "ipas",
+          "total": len(hasil),
+          "komik": hasil
+      }
 
-          if root.exists():
-
-              for file in root.rglob("halaman-00.jpg"):
-
-                  if file.is_file():
-
-                      path = file.as_posix()
-
-                      bagian = path.split("/")
-
-
-                      if len(bagian) >= 3:
-
-                          folder = "/".join(
-                              bagian[:-1]
-                          )
-
-
-                          hasil.append({
-                              "folder": folder,
-                              "path": path,
-                              "file": "halaman-00.jpg"
-                          })
-
-
-          hasil.sort(
-              key=lambda x: x["folder"].lower()
+      with open(
+          "komik.json",
+          "w",
+          encoding="utf-8"
+      ) as f:
+          json.dump(
+              output,
+              f,
+              ensure_ascii=False,
+              indent=2
           )
 
+      print("Jumlah komik:", len(hasil))
+      PY
 
-          output = {
-              "folder": "ipas",
-              "total": len(hasil),
-              "komik": hasil
-          }
+  - name: Commit komik.json
+    shell: bash
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      git add komik.json
 
-          with open(
-              "komik.json",
-              "w",
-              encoding="utf-8"
-          ) as f:
-
-              json.dump(
-                  output,
-                  f,
-                  ensure_ascii=False,
-                  indent=2
-              )
-
-
-          print(
-              "===================================="
-          )
-
-          print(
-              "Jumlah komik:",
-              len(hasil)
-          )
-
-          print(
-              "===================================="
-          )
-
-          print(
-              json.dumps(
-                  output,
-                  ensure_ascii=False,
-                  indent=2
-              )
-          )
-
-          PY
-
-
-      - name: Simpan komik.json ke repository
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        run: |
-
-          git config user.name "github-actions[bot]"
-
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
-
-
-          git add komik.json
-
-
-          if git diff --cached --quiet; then
-
-            echo "Tidak ada perubahan pada komik.json."
-
-          else
-
-            git commit \
-              -m "Update daftar komik otomatis"
-
-            git push origin HEAD:main
-
-          fi
+      if git diff --cached --quiet; then
+        echo "Tidak ada perubahan pada komik.json."
+      else
+        git commit -m "Update daftar komik otomatis"
+        git push origin HEAD:main
+      fi
 
