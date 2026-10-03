@@ -17,12 +17,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # =====================================================
+      # CHECKOUT REPOSITORY
+      # =====================================================
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
 
+      # =====================================================
+      # GENERATE KOMIK.JSON
+      # =====================================================
       - name: Generate komik.json
         shell: bash
         run: |
@@ -30,17 +36,33 @@ jobs:
           import json
           from pathlib import Path
 
+          # =================================================
+          # FOLDER SUMBER KOMIK
+          # =================================================
           root = Path("ipas")
+
           hasil = []
 
+          # =================================================
+          # CEK FOLDER IPAS
+          # =================================================
           if root.exists():
+
+              # Cari seluruh file halaman-00.jpg
               for file in root.rglob("halaman-00.jpg"):
+
                   if file.is_file():
+
                       path = file.as_posix()
+
                       bagian = path.split("/")
 
+                      # Pastikan struktur folder valid
                       if len(bagian) >= 3:
-                          folder = "/".join(bagian[:-1])
+
+                          folder = "/".join(
+                              bagian[:-1]
+                          )
 
                           hasil.append({
                               "folder": folder,
@@ -48,31 +70,91 @@ jobs:
                               "file": "halaman-00.jpg"
                           })
 
-          hasil.sort(key=lambda x: x["folder"].lower())
+          # =================================================
+          # URUTKAN BERDASARKAN NAMA FOLDER
+          # =================================================
+          hasil.sort(
+              key=lambda x: x["folder"].lower()
+          )
 
+          # =================================================
+          # DATA OUTPUT
+          # =================================================
           output = {
               "folder": "ipas",
               "total": len(hasil),
               "komik": hasil
           }
 
-          with open("komik.json", "w", encoding="utf-8") as f:
-              json.dump(output, f, ensure_ascii=False, indent=2)
+          # =================================================
+          # SIMPAN KOMIK.JSON
+          # =================================================
+          with open(
+              "komik.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
 
+              json.dump(
+                  output,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+          # =================================================
+          # INFORMASI KE LOG GITHUB ACTIONS
+          # =================================================
+          print("====================================")
+          print("      UPDATE DAFTAR KOMIK")
+          print("====================================")
           print("Jumlah komik:", len(hasil))
+          print("====================================")
+
+          print(
+              json.dumps(
+                  output,
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
           PY
 
-      - name: Commit komik.json
+      # =====================================================
+      # SIMPAN KOMIK.JSON KE REPOSITORY
+      # =====================================================
+      - name: Simpan komik.json ke repository
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Konfigurasi identitas GitHub Actions
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # Tambahkan komik.json
           git add komik.json
 
+          # =================================================
+          # CEK APAKAH ADA PERUBAHAN
+          # =================================================
           if git diff --cached --quiet; then
+
+            echo "===================================="
             echo "Tidak ada perubahan pada komik.json."
+            echo "===================================="
+
           else
-            git commit -m "Update daftar komik otomatis"
+
+            echo "===================================="
+            echo "Perubahan ditemukan."
+            echo "Menyimpan komik.json..."
+            echo "===================================="
+
+            git commit \
+              -m "Update daftar komik otomatis"
+
             git push origin HEAD:main
+
           fi
