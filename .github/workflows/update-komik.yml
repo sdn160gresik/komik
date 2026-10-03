@@ -1,9 +1,7 @@
 name: Test Komik
-
 on: push
-
 jobs:
-test:
-runs-on: ubuntu-latest
-steps:
-- run: echo "GitHub Actions berhasil"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -run:echo "Github Actions Berhasil"
