@@ -1,24 +1,16 @@
 name: Update Daftar Komik
-
-on: [push, workflow_dispatch]
-
-permissions:
-contents: write
+on: [push]
 
 jobs:
 generate:
 runs-on: ubuntu-latest
-
-
 steps:
-  - name: Checkout
-    uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
-  - name: Generate komik.json
-    run: python3 generate_komik.py
 
-  - name: Commit komik.json
-    run: |
+  - run: python3 generate_komik.py
+
+  - run: |
       git config user.name "github-actions[bot]"
       git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       git add komik.json
