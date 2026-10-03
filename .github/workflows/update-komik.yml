@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "ipas/**"
+
   workflow_dispatch:
 
 permissions:
@@ -14,31 +15,48 @@ permissions:
 
 jobs:
   generate-komik-json:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Generate komik.json
         shell: bash
         run: |
+
           python3 <<'PY'
+
           import json
           from pathlib import Path
-          from urllib.parse import quote
 
           root = Path("ipas")
+
           hasil = []
 
+
           if root.exists():
+
               for file in root.rglob("halaman-00.jpg"):
+
                   if file.is_file():
+
                       path = file.as_posix()
 
                       bagian = path.split("/")
+
+
                       if len(bagian) >= 3:
-                          folder = "/".join(bagian[:-1])
+
+                          folder = "/".join(
+                              bagian[:-1]
+                          )
+
 
                           hasil.append({
                               "folder": folder,
@@ -46,7 +64,11 @@ jobs:
                               "file": "halaman-00.jpg"
                           })
 
-          hasil.sort(key=lambda x: x["folder"].lower())
+
+          hasil.sort(
+              key=lambda x: x["folder"].lower()
+          )
+
 
           output = {
               "folder": "ipas",
@@ -54,7 +76,13 @@ jobs:
               "komik": hasil
           }
 
-          with open("komik.json", "w", encoding="utf-8") as f:
+
+          with open(
+              "komik.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
+
               json.dump(
                   output,
                   f,
@@ -62,22 +90,57 @@ jobs:
                   indent=2
               )
 
-          print("Daftar komik:")
-          print(json.dumps(output, ensure_ascii=False, indent=2))
+
+          print(
+              "===================================="
+          )
+
+          print(
+              "Jumlah komik:",
+              len(hasil)
+          )
+
+          print(
+              "===================================="
+          )
+
+          print(
+              json.dumps(
+                  output,
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
           PY
 
-      - name: Commit komik.json
+
+      - name: Simpan komik.json ke repository
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         run: |
+
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
 
           git add komik.json
 
+
           if git diff --cached --quiet; then
+
             echo "Tidak ada perubahan pada komik.json."
+
           else
-            git commit -m "Update daftar komik otomatis"
-            git push
+
+            git commit \
+              -m "Update daftar komik otomatis"
+
+            git push origin HEAD:main
+
           fi
 ```
