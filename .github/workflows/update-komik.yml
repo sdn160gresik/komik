@@ -8,57 +8,20 @@ contents: write
 jobs:
 generate:
 runs-on: ubuntu-latest
+
+
 steps:
-- name: Checkout
-uses: actions/checkout@v4
+  - name: Checkout
+    uses: actions/checkout@v4
 
+  - name: Generate komik.json
+    run: python3 generate_komik.py
 
-  - name: Buat komik.json
-    run: |
-      python3 - <<'PY'
-      import json
-      from pathlib import Path
-
-      hasil = []
-
-      root = Path("ipas")
-
-      if root.exists():
-          for file in root.rglob("halaman-00.jpg"):
-              if file.is_file():
-                  path = file.as_posix()
-                  bagian = path.split("/")
-
-                  if len(bagian) >= 3:
-                      hasil.append({
-                          "folder": "/".join(bagian[:-1]),
-                          "path": path,
-                          "file": "halaman-00.jpg"
-                      })
-
-      hasil.sort(key=lambda x: x["folder"].lower())
-
-      data = {
-          "folder": "ipas",
-          "total": len(hasil),
-          "komik": hasil
-      }
-
-      with open("komik.json", "w", encoding="utf-8") as f:
-          json.dump(data, f, ensure_ascii=False, indent=2)
-
-      print("Jumlah komik:", len(hasil))
-      PY
-
-  - name: Simpan komik.json
+  - name: Commit komik.json
     run: |
       git config user.name "github-actions[bot]"
       git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       git add komik.json
+      git diff --cached --quiet || git commit -m "Update daftar komik otomatis"
+      git push
 
-      if git diff --cached --quiet; then
-        echo "Tidak ada perubahan."
-      else
-        git commit -m "Update daftar komik otomatis"
-        git push
-      fi
