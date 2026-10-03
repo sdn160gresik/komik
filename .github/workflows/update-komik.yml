@@ -1,8 +1,4 @@
 name: Update Daftar Komik
 on: push
 permissions: write-all
-jobs:
-generate:
-runs-on: ubuntu-latest
-steps:
-- run: echo "Permissions berhasil"
+jobs: {generate: {runs-on: ubuntu-latest, steps: [{run: 'echo "Permissions berhasil"'}]}}
