@@ -1,24 +1,18 @@
 name: Update Daftar Komik
 on: [push, workflow_dispatch]
-
 permissions:
 contents: write
-
 jobs:
 generate:
 runs-on: ubuntu-latest
 steps:
-- uses: actions/checkout@v4
-
-
-  - name: Membuat komik.json
-    run: python3 generate_komik.py
-
-  - name: Simpan komik.json
-    run: |
-      git config user.name "github-actions[bot]"
-      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      git add komik.json
-      git diff --cached --quiet || git commit -m "Update daftar komik otomatis"
-      git push
-
+    - uses: actions/checkout@v4
+      - name: Buat komik.json
+        run: python3 generate_komik.py
+- name: Simpan komik.json
+run: |
+git config user.name "github-actions[bot]"
+git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git add komik.json
+git diff --cached --quiet || git commit -m "Update daftar komik otomatis"
+git push
