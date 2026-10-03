@@ -4,19 +4,18 @@ from pathlib import Path
 root = Path("ipas")
 hasil = []
 
-if root.exists():
 for file in root.rglob("halaman-00.jpg"):
 if file.is_file():
 path = file.as_posix()
 bagian = path.split("/")
 
 
-        if len(bagian) >= 3:
-            hasil.append({
-                "folder": "/".join(bagian[:-1]),
-                "path": path,
-                "file": "halaman-00.jpg"
-            })
+    if len(bagian) >= 3:
+        hasil.append({
+            "folder": "/".join(bagian[:-1]),
+            "path": path,
+            "file": "halaman-00.jpg"
+        })
 
 
 hasil.sort(key=lambda x: x["folder"].lower())
