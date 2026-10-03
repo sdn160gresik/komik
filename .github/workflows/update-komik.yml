@@ -1,5 +1,4 @@
 name: Update Daftar Komik
 on: push
-permissions:
-contents: write
+permissions: {contents: write}
 jobs: {generate: {runs-on: ubuntu-latest, steps: [{uses: actions/checkout@v4}, {run: python3 generate_komik.py}, {run: git config user.name "github-actions[bot]"}, {run: git config user.email "41898282+github-actions[bot]@users.noreply.github.com"}, {run: git add komik.json}, {run: git diff --cached --quiet || git commit -m "Update daftar komik otomatis"}, {run: git push}]}}
