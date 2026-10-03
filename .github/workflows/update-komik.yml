@@ -16,7 +16,7 @@ jobs:
 generate-komik-json:
 runs-on: ubuntu-latest
 
-```
+
 steps:
 
   - name: Checkout repository
