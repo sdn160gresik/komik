@@ -1,7 +1,7 @@
 name: Update Daftar Komik
 on: push
 jobs:
-generate:
-runs-on: ubuntu-latest
-steps:
-- run: echo "Workflow komik berhasil"
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Workflow komik berhasil"
