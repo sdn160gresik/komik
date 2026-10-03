@@ -1,0 +1,83 @@
+```yaml
+name: Update Daftar Komik
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "ipas/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-komik-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate komik.json
+        shell: bash
+        run: |
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.parse import quote
+
+          root = Path("ipas")
+          hasil = []
+
+          if root.exists():
+              for file in root.rglob("halaman-00.jpg"):
+                  if file.is_file():
+                      path = file.as_posix()
+
+                      bagian = path.split("/")
+                      if len(bagian) >= 3:
+                          folder = "/".join(bagian[:-1])
+
+                          hasil.append({
+                              "folder": folder,
+                              "path": path,
+                              "file": "halaman-00.jpg"
+                          })
+
+          hasil.sort(key=lambda x: x["folder"].lower())
+
+          output = {
+              "folder": "ipas",
+              "total": len(hasil),
+              "komik": hasil
+          }
+
+          with open("komik.json", "w", encoding="utf-8") as f:
+              json.dump(
+                  output,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+          print("Daftar komik:")
+          print(json.dumps(output, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit komik.json
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add komik.json
+
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan pada komik.json."
+          else
+            git commit -m "Update daftar komik otomatis"
+            git push
+          fi
+```
