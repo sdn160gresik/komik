@@ -2,21 +2,16 @@ import json
 from pathlib import Path
 
 root = Path("ipas")
-hasil = []
 
-for file in root.rglob("halaman-00.jpg"):
-if file.is_file():
-path = file.as_posix()
-bagian = path.split("/")
-
-
-    if len(bagian) >= 3:
-        hasil.append({
-            "folder": "/".join(bagian[:-1]),
-            "path": path,
-            "file": "halaman-00.jpg"
-        })
-
+hasil = [
+{
+"folder": file.parent.as_posix(),
+"path": file.as_posix(),
+"file": "halaman-00.jpg"
+}
+for file in root.rglob("halaman-00.jpg")
+if file.is_file()
+]
 
 hasil.sort(key=lambda x: x["folder"].lower())
 
