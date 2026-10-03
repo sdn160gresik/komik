@@ -1,8 +1,3 @@
 name: Update Daftar Komik
 on: push
-jobs:
-generate:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- run: python3 generate_komik.py
+jobs: {generate: {runs-on: ubuntu-latest, steps: [{uses: actions/checkout@v4}, {run: python3 generate_komik.py}]}}
