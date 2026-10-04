@@ -1,10 +1,15 @@
 {
   "folder": "ipas",
-  "total": 1,
+  "total": 2,
   "komik": [
     {
       "folder": "ipas/DIMANA_INDONESIA_BERADA?",
       "path": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
+      "file": "halaman-00.jpg"
+    },
+    {
+      "folder": "ipas/jaring_jaring_makanan",
+      "path": "ipas/jaring_jaring_makanan/halaman-00.jpg",
       "file": "halaman-00.jpg"
     }
   ]
