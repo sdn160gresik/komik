@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 1,
+  "total": 2,
   "komik": [
     {
       "mapel": "ipas",
@@ -8,6 +8,13 @@
       "path": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "DIMANA_INDONESIA_BERADA?"
+    },
+    {
+      "mapel": "mtk",
+      "folder": "mtk/bab1_A-D",
+      "path": "mtk/bab1_A-D/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "bab1_A-D"
     }
   ]
 }
