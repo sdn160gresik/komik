@@ -1,11 +1,13 @@
 {
-  "folder": "ipas",
+  "folder": ".",
   "total": 1,
   "komik": [
     {
+      "mapel": "ipas",
       "folder": "ipas/DIMANA_INDONESIA_BERADA?",
       "path": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
-      "file": "halaman-00.jpg"
+      "file": "halaman-00.jpg",
+      "nama": "DIMANA_INDONESIA_BERADA?"
     }
   ]
 }
