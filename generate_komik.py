@@ -8,16 +8,6 @@ from pathlib import Path
 ROOT = Path(".")
 OUTPUT = Path("komik.json")
 
-# Folder utama yang dianggap sebagai mata pelajaran
-MAPEL = {
-    "ipas",
-    "matematika",
-    "bahasa-indonesia",
-    "pancasila",
-    "seni",
-    "bahasa-jawa"
-}
-
 # Folder yang tidak perlu diperiksa
 EXCLUDE_DIRS = {
     ".git",
@@ -33,7 +23,7 @@ hasil = []
 
 for file in ROOT.rglob("halaman-00.jpg"):
 
-    # Harus berupa file
+    # Pastikan benar-benar file
     if not file.is_file():
         continue
 
@@ -41,36 +31,31 @@ for file in ROOT.rglob("halaman-00.jpg"):
     if any(part in EXCLUDE_DIRS for part in file.parts):
         continue
 
-    # Path relatif dari root repository
+    # Path relatif terhadap root repository
     relative_path = file.relative_to(ROOT)
 
-    # Semua folder sebelum halaman-00.jpg
+    # Folder tempat halaman-00.jpg berada
     folder = relative_path.parent
 
-    # --------------------------------------------------------
-    # Menentukan MAPEL
-    # --------------------------------------------------------
-
-    parts = folder.parts
-
-    if not parts:
+    # Pastikan mempunyai folder induk
+    if not folder.parts:
         continue
 
-    mapel = parts[0].lower()
+    # ========================================================
+    # FOLDER PERTAMA = MAPEL
+    # ========================================================
 
-    # Hanya proses folder mata pelajaran
-    if mapel not in MAPEL:
-        continue
+    mapel = folder.parts[0]
 
-    # --------------------------------------------------------
-    # Nama komik = folder tempat halaman-00.jpg berada
-    # --------------------------------------------------------
+    # ========================================================
+    # NAMA KOMIK
+    # ========================================================
 
     nama_komik = folder.name
 
-    # --------------------------------------------------------
-    # Simpan data
-    # --------------------------------------------------------
+    # ========================================================
+    # SIMPAN DATA
+    # ========================================================
 
     hasil.append({
         "mapel": mapel,
@@ -81,7 +66,7 @@ for file in ROOT.rglob("halaman-00.jpg"):
     })
 
 # ============================================================
-# URUTKAN
+# URUTKAN DATA
 # ============================================================
 
 hasil.sort(
@@ -92,7 +77,7 @@ hasil.sort(
 )
 
 # ============================================================
-# BUAT DATA JSON
+# DATA JSON
 # ============================================================
 
 data = {
@@ -115,19 +100,21 @@ OUTPUT.write_text(
 )
 
 # ============================================================
-# INFORMASI HASIL
+# TAMPILKAN HASIL
 # ============================================================
 
 print("=" * 60)
 print("UPDATE DAFTAR KOMIK")
 print("=" * 60)
+
 print("Total komik:", len(hasil))
 print()
 
 for item in hasil:
     print(
         f"[{item['mapel']}] "
-        f"{item['folder']}"
+        f"{item['folder']} "
+        f"-> {item['file']}"
     )
 
 print()
