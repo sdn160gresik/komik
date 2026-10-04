@@ -8,14 +8,12 @@ from pathlib import Path
 ROOT = Path(".").resolve()
 OUTPUT = ROOT / "komik.json"
 
-# Folder yang tidak perlu diperiksa
 EXCLUDE_DIRS = {
     ".git",
     ".github",
     "node_modules",
 }
 
-# Nama file yang dicari
 TARGET_FILE = "halaman-00.jpg"
 
 # ============================================================
@@ -25,51 +23,93 @@ TARGET_FILE = "halaman-00.jpg"
 print("=" * 70)
 print("GENERATE DAFTAR KOMIK")
 print("=" * 70)
+
 print("ROOT :", ROOT)
-print("FILE :", TARGET_FILE)
+print("TARGET:", TARGET_FILE)
 print()
 
 # ============================================================
-# MENCARI FILE
+# CEK FOLDER MTK
+# ============================================================
+
+mtk_folder = ROOT / "mtk"
+
+print("CEK FOLDER MTK")
+print("-" * 70)
+
+if mtk_folder.exists():
+    print("Folder mtk ditemukan.")
+
+    if mtk_folder.is_dir():
+        print("Status : folder")
+    else:
+        print("Status : BUKAN folder")
+
+    print()
+
+    print("Isi folder mtk:")
+
+    for item in mtk_folder.rglob("*"):
+
+        if item.is_file():
+            relative = item.relative_to(ROOT)
+
+            print(
+                "  -",
+                relative.as_posix()
+            )
+
+else:
+    print("!!! FOLDER MTK TIDAK DITEMUKAN !!!")
+
+print()
+
+# ============================================================
+# MENCARI SEMUA halaman-00.jpg
 # ============================================================
 
 hasil = []
 
+print("=" * 70)
+print("MENCARI halaman-00.jpg")
+print("=" * 70)
+print()
+
 for file in ROOT.rglob("*"):
 
-    # Harus file
     if not file.is_file():
         continue
 
-    # Lewati folder yang tidak perlu
     if any(part in EXCLUDE_DIRS for part in file.parts):
         continue
 
+    relative_path = file.relative_to(ROOT)
+
     # --------------------------------------------------------
-    # CASE-INSENSITIVE
-    # halaman-00.jpg
-    # HALAMAN-00.JPG
-    # Halaman-00.jpg
-    # semuanya dianggap sama
+    # TAMPILKAN FILE YANG BERADA DI MTK
+    # --------------------------------------------------------
+
+    if relative_path.as_posix().lower().startswith("mtk/"):
+
+        print(
+            "FILE MTK:",
+            relative_path.as_posix()
+        )
+
+    # --------------------------------------------------------
+    # PERIKSA NAMA FILE
     # --------------------------------------------------------
 
     if file.name.lower() != TARGET_FILE.lower():
         continue
 
-    # Path relatif terhadap repository
-    relative_path = file.relative_to(ROOT)
-
-    # Folder tempat file berada
     folder = relative_path.parent
 
-    # Jangan proses jika file langsung berada di root
     if not folder.parts:
         continue
 
-    # Folder paling atas = mapel
     mapel = folder.parts[0]
 
-    # Folder tempat halaman-00.jpg berada
     nama_komik = folder.name
 
     item = {
@@ -82,10 +122,12 @@ for file in ROOT.rglob("*"):
 
     hasil.append(item)
 
-    print("DITEMUKAN:")
-    print("  Mapel :", mapel)
-    print("  Folder:", folder.as_posix())
-    print("  File  :", relative_path.as_posix())
+    print()
+    print("******** KOMIK DITEMUKAN ********")
+    print("Mapel  :", mapel)
+    print("Folder :", folder.as_posix())
+    print("File   :", relative_path.as_posix())
+    print("*********************************")
     print()
 
 # ============================================================
@@ -100,7 +142,7 @@ hasil.sort(
 )
 
 # ============================================================
-# BUAT DATA JSON
+# BUAT JSON
 # ============================================================
 
 data = {
@@ -123,25 +165,33 @@ OUTPUT.write_text(
 )
 
 # ============================================================
-# HASIL AKHIR
+# HASIL
 # ============================================================
 
 print("=" * 70)
 print("HASIL AKHIR")
 print("=" * 70)
+
 print("Total komik:", len(hasil))
 print()
 
 if hasil:
+
     for nomor, item in enumerate(hasil, start=1):
+
         print(
             f"{nomor}. "
             f"[{item['mapel']}] "
             f"{item['path']}"
         )
+
 else:
-    print("TIDAK ADA halaman-00.jpg YANG DITEMUKAN.")
+
+    print(
+        "TIDAK ADA halaman-00.jpg "
+        "YANG DITEMUKAN."
+    )
 
 print()
-print("File dibuat:", OUTPUT)
+print("File JSON:", OUTPUT)
 print("=" * 70)
