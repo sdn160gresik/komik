@@ -1,4 +1,23 @@
 name: Update Daftar Komik
-on: push
-permissions: write-all
-jobs: {generate: {runs-on: ubuntu-latest, steps: [{uses: actions/checkout@v4}, {run: python3 generate_komik.py}, {run: bash save_komik.sh}]}}
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate komik.json
+        run: python3 generate_komik.py
+
+      - name: Simpan komik.json
+        run: bash save_komik.sh
