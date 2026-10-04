@@ -1,14 +1,40 @@
 import json
 from pathlib import Path
 
-root = Path("ipas")
+ROOT = Path("ipas")
+OUTPUT = Path("komik.json")
 
-hasil = [{"folder": f.parent.as_posix(), "path": f.as_posix(), "file": "halaman-00.jpg"} for f in root.rglob("halaman-00.jpg") if f.is_file()]
+hasil = []
+
+if ROOT.exists():
+    for file in ROOT.rglob("halaman-00.jpg"):
+        if file.is_file():
+            hasil.append({
+                "folder": file.parent.as_posix(),
+                "path": file.as_posix(),
+                "file": file.name
+            })
 
 hasil.sort(key=lambda x: x["folder"].lower())
 
-data = {"folder": "ipas", "total": len(hasil), "komik": hasil}
+data = {
+    "folder": "ipas",
+    "total": len(hasil),
+    "komik": hasil
+}
 
-Path("komik.json").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+OUTPUT.write_text(
+    json.dumps(data, ensure_ascii=False, indent=2),
+    encoding="utf-8"
+)
 
+print("=" * 50)
+print("UPDATE DAFTAR KOMIK")
+print("=" * 50)
+print("Folder:", ROOT)
 print("Jumlah komik:", len(hasil))
+
+for item in hasil:
+    print("-", item["folder"])
+
+print("=" * 50)
