@@ -10,18 +10,18 @@
       "nama": "DIMANA_INDONESIA_BERADA?"
     },
     {
-      "mapel": "ipas",
-      "folder": "ipas/MAJULAH_DAERAHKU",
-      "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
-      "file": "halaman-00.jpg",
-      "nama": "MAJULAH_DAERAHKU"
-    },
-    {
       "mapel": "mtk",
       "folder": "mtk/bab1_A-D",
       "path": "mtk/bab1_A-D/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "bab1_A-D"
+    },
+    {
+      "mapel": "ipas",
+      "folder": "ipas/MAJULAH_DAERAHKU",
+      "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "MAJULAH_DAERAHKU"
     }
   ]
 }
