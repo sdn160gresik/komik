@@ -3,8 +3,6 @@
   "total": 3,
   "komik": [
     {
-      "urutan": 1,
-      "reader": "literasi-1.html",
       "mapel": "ipas",
       "folder": "ipas/DIMANA_INDONESIA_BERADA?",
       "path": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
@@ -12,22 +10,18 @@
       "nama": "DIMANA_INDONESIA_BERADA?"
     },
     {
-      "urutan": 2,
-      "reader": "literasi-2.html",
-      "mapel": "mtk",
-      "folder": "mtk/bab1_A-D",
-      "path": "mtk/bab1_A-D/halaman-00.jpg",
-      "file": "halaman-00.jpg",
-      "nama": "bab1_A-D"
-    },
-    {
-      "urutan": 3,
-      "reader": "literasi-3.html",
       "mapel": "ipas",
       "folder": "ipas/MAJULAH_DAERAHKU",
       "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "MAJULAH_DAERAHKU"
+    },
+    {
+      "mapel": "mtk",
+      "folder": "mtk/bab1_A-D",
+      "path": "mtk/bab1_A-D/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "bab1_A-D"
     }
   ]
 }
