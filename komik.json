@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 3,
+  "total": 4,
   "komik": [
     {
       "urutan": 1,
@@ -28,6 +28,15 @@
       "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "MAJULAH_DAERAHKU"
+    },
+    {
+      "urutan": 9999,
+      "reader": "",
+      "mapel": "mtk",
+      "folder": "mtk/bab2",
+      "path": "mtk/bab2/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "bab2"
     }
   ]
 }
