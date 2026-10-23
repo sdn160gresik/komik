@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 4,
+  "total": 5,
   "komik": [
     {
       "urutan": 1,
@@ -28,6 +28,15 @@
       "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "MAJULAH_DAERAHKU"
+    },
+    {
+      "urutan": 9999,
+      "reader": "",
+      "mapel": "ipas",
+      "folder": "ipas/Energi_Listrik",
+      "path": "ipas/Energi_Listrik/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "Energi_Listrik"
     },
     {
       "urutan": 9999,
