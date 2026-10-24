@@ -1,331 +1,242 @@
+
 import json
+import re
 from pathlib import Path
+from urllib.parse import quote
 
 # ============================================================
 # KONFIGURASI
 # ============================================================
 
-ROOT = Path(".").resolve()
+ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "komik.json"
 
 EXCLUDE_DIRS = {
     ".git",
     ".github",
     "node_modules",
+    "__pycache__",
 }
 
-TARGET_FILE = "halaman-00.jpg"
+IMAGE_EXTENSIONS = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp",
+    ".gif",
+}
 
+THUMBNAIL_FILE = "halaman-00.jpg"
 
-# ============================================================
-# URUTAN DAN READER KOMIK
-# ============================================================
+# Ganti jika nama akun atau repository berbeda.
+GITHUB_USERNAME = "sdn160gresik"
+GITHUB_REPO = "komik"
+BRANCH = "main"
 
-KOMIK_CONFIG = {
-    "ipas/DIMANA_INDONESIA_BERADA?": {
-        "urutan": 1,
-        "reader": "literasi-1.html"
-    },
-
-    "mtk/bab1_A-D": {
-        "urutan": 2,
-        "reader": "literasi-2.html"
-    },
-
-    "ipas/MAJULAH_DAERAHKU": {
-        "urutan": 3,
-        "reader": "literasi-3.html"
-    }
+# Folder yang ingin ditampilkan lebih dahulu.
+# Folder baru yang tidak dicantumkan akan diurutkan
+# setelah folder yang memiliki urutan khusus.
+PRIORITY_FOLDERS = {
+    "ipas/DIMANA_INDONESIA_BERADA?": 1,
+    "mtk/bab1_A-D": 2,
+    "ipas/MAJULAH_DAERAHKU": 3,
 }
 
 
 # ============================================================
-# INFORMASI ROOT
+# FUNGSI URUTAN ALAMI
+# halaman-2.jpg akan berada sebelum halaman-10.jpg.
+# ============================================================
+
+def natural_key(value):
+    return [
+        int(part) if part.isdigit() else part.lower()
+        for part in re.split(r"(\d+)", value)
+    ]
+
+
+# ============================================================
+# FUNGSI URL GITHUB
+# ============================================================
+
+def github_raw_url(relative_path):
+    encoded_path = "/".join(
+        quote(part, safe="")
+        for part in Path(relative_path).parts
+    )
+
+    return (
+        f"https://raw.githubusercontent.com/"
+        f"{GITHUB_USERNAME}/{GITHUB_REPO}/"
+        f"{BRANCH}/{encoded_path}"
+    )
+
+
+# ============================================================
+# PEMERIKSAAN FOLDER
 # ============================================================
 
 print("=" * 70)
-print("GENERATE DAFTAR KOMIK")
+print("GENERATE DAFTAR LITERASI UPT SDN 160 GRESIK")
 print("=" * 70)
-
-print("ROOT   :", ROOT)
-print("TARGET :", TARGET_FILE)
+print("Root       :", ROOT)
+print("Output     :", OUTPUT)
+print("Thumbnail  :", THUMBNAIL_FILE)
 print()
 
 
 # ============================================================
-# CEK FOLDER MTK
+# CARI THUMBNAIL DAN HALAMAN DALAM FOLDER YANG SAMA
 # ============================================================
 
-mtk_folder = ROOT / "mtk"
+komik = []
 
-print("CEK FOLDER MTK")
-print("-" * 70)
+for thumbnail in ROOT.rglob("*"):
 
-if mtk_folder.exists():
-
-    print("Folder mtk ditemukan.")
-
-    if mtk_folder.is_dir():
-        print("Status : folder")
-    else:
-        print("Status : BUKAN folder")
-
-    print()
-
-    print("Isi folder mtk:")
-
-    for item in mtk_folder.rglob("*"):
-
-        if item.is_file():
-
-            relative = item.relative_to(ROOT)
-
-            print(
-                " -",
-                relative.as_posix()
-            )
-
-else:
-
-    print("!!! FOLDER MTK TIDAK DITEMUKAN !!!")
-
-print()
-
-
-# ============================================================
-# MENCARI SEMUA halaman-00.jpg
-# ============================================================
-
-hasil = []
-
-print("=" * 70)
-print("MENCARI halaman-00.jpg")
-print("=" * 70)
-print()
-
-
-for file in ROOT.rglob("*"):
-
-    if not file.is_file():
+    if not thumbnail.is_file():
         continue
 
+    relative_thumbnail = thumbnail.relative_to(ROOT)
+
+    # Abaikan file di folder sistem.
     if any(
         part in EXCLUDE_DIRS
-        for part in file.parts
+        for part in relative_thumbnail.parts
     ):
         continue
 
-    relative_path = file.relative_to(ROOT)
-
-    relative_string = relative_path.as_posix()
-
-
-    # --------------------------------------------------------
-    # TAMPILKAN FILE YANG BERADA DI MTK
-    # --------------------------------------------------------
-
-    if relative_string.lower().startswith("mtk/"):
-
-        print(
-            "FILE MTK:",
-            relative_string
-        )
-
-
-    # --------------------------------------------------------
-    # PERIKSA NAMA FILE
-    # --------------------------------------------------------
-
-    if file.name.lower() != TARGET_FILE.lower():
+    # Hanya halaman-00.jpg yang menjadi thumbnail.
+    if thumbnail.name.lower() != THUMBNAIL_FILE.lower():
         continue
 
+    folder = thumbnail.parent
+    folder_relative = folder.relative_to(ROOT)
+    folder_string = folder_relative.as_posix()
 
-    folder = relative_path.parent
-
-    if not folder.parts:
-        continue
-
-
-    mapel = folder.parts[0]
-
-    nama_komik = folder.name
-
-    folder_string = folder.as_posix()
-
-
-    # --------------------------------------------------------
-    # CEK KONFIGURASI KOMIK
-    # --------------------------------------------------------
-
-    config = KOMIK_CONFIG.get(
-        folder_string
+    # Mapel ditentukan dari folder tingkat pertama.
+    mapel = (
+        folder_relative.parts[0]
+        if len(folder_relative.parts) > 0
+        else "lainnya"
     )
 
+    # Nama materi diambil dari nama folder.
+    nama = folder.name
 
-    if config is None:
+    # Cari semua gambar dalam folder materi yang sama.
+    semua_gambar = []
 
-        print(
-            "PERINGATAN:",
-            "Folder belum memiliki konfigurasi:",
-            folder_string
-        )
+    for file in folder.iterdir():
 
-        print(
-            "Komik tetap dimasukkan dengan urutan terakhir."
-        )
+        if not file.is_file():
+            continue
 
-        urutan = 9999
-        reader = ""
+        if file.suffix.lower() not in IMAGE_EXTENSIONS:
+            continue
 
-    else:
+        semua_gambar.append(file)
 
-        urutan = config["urutan"]
-        reader = config["reader"]
+    semua_gambar.sort(
+        key=lambda file: natural_key(file.name)
+    )
 
+    # halaman-00.jpg hanya menjadi thumbnail.
+    # File itu tidak dimasukkan ke urutan halaman pembaca.
+    halaman_baca = [
+        file for file in semua_gambar
+        if file.name.lower() != THUMBNAIL_FILE.lower()
+    ]
 
-    # --------------------------------------------------------
-    # BUAT ITEM
-    # --------------------------------------------------------
+    # Data halaman berupa path relatif agar URL
+    # dapat dibentuk secara konsisten oleh pembaca.
+    pages = [
+        {
+            "file": file.name,
+            "path": file.relative_to(ROOT).as_posix(),
+        }
+        for file in halaman_baca
+    ]
+
+    # Urutan khusus jika ditentukan.
+    # Folder baru otomatis mendapatkan urutan terakhir.
+    urutan = PRIORITY_FOLDERS.get(
+        folder_string,
+        9999
+    )
 
     item = {
-
         "urutan": urutan,
-
-        "reader": reader,
-
         "mapel": mapel,
-
+        "nama": nama,
         "folder": folder_string,
-
-        "path": relative_string,
-
-        "file": file.name,
-
-        "nama": nama_komik
-
+        "thumbnail": relative_thumbnail.as_posix(),
+        "thumbnail_url": github_raw_url(
+            relative_thumbnail.as_posix()
+        ),
+        "reader": "literasi-reader.html",
+        "total_halaman": len(pages),
+        "pages": pages,
     }
 
+    komik.append(item)
 
-    hasil.append(item)
-
-
-    print()
-    print("******** KOMIK DITEMUKAN ********")
-
-    print(
-        "Urutan :",
-        urutan
-    )
-
-    print(
-        "Reader :",
-        reader
-    )
-
-    print(
-        "Mapel  :",
-        mapel
-    )
-
-    print(
-        "Folder :",
-        folder_string
-    )
-
-    print(
-        "File   :",
-        relative_string
-    )
-
-    print("*********************************")
+    print("Materi ditemukan:", nama)
+    print("  Mapel         :", mapel)
+    print("  Folder        :", folder_string)
+    print("  Thumbnail     :", relative_thumbnail.as_posix())
+    print("  Jumlah halaman:", len(pages))
     print()
 
 
 # ============================================================
-# URUTKAN BERDASARKAN URUTAN YANG DITENTUKAN
+# URUTKAN DAFTAR
 # ============================================================
 
-hasil.sort(
-    key=lambda x: x["urutan"]
+komik.sort(
+    key=lambda item: (
+        item["urutan"],
+        item["mapel"].lower(),
+        natural_key(item["nama"]),
+        item["folder"].lower(),
+    )
 )
 
-
 # ============================================================
-# BUAT JSON
+# SIMPAN JSON
 # ============================================================
 
 data = {
-
     "folder": ".",
-
-    "total": len(hasil),
-
-    "komik": hasil
-
+    "total": len(komik),
+    "komik": komik,
 }
 
-
-# ============================================================
-# SIMPAN
-# ============================================================
-
 OUTPUT.write_text(
-
     json.dumps(
         data,
         ensure_ascii=False,
-        indent=2
+        indent=2,
     ),
-
-    encoding="utf-8"
-
+    encoding="utf-8",
 )
 
-
 # ============================================================
-# HASIL
+# LAPORAN AKHIR
 # ============================================================
 
 print("=" * 70)
-print("HASIL AKHIR")
+print("SELESAI")
 print("=" * 70)
-
-print(
-    "Total komik:",
-    len(hasil)
-)
-
+print("Total materi :", len(komik))
+print("File JSON    :", OUTPUT)
 print()
 
-
-if hasil:
-
-    for nomor, item in enumerate(
-        hasil,
-        start=1
-    ):
-
-        print(
-            f"{nomor}. "
-            f"[{item['urutan']}] "
-            f"{item['mapel']} | "
-            f"{item['folder']} | "
-            f"{item['reader']}"
-        )
-
-else:
-
+for nomor, item in enumerate(komik, start=1):
     print(
-        "TIDAK ADA halaman-00.jpg "
-        "YANG DITEMUKAN."
+        f"{nomor}. {item['mapel']} | "
+        f"{item['nama']} | "
+        f"{item['total_halaman']} halaman | "
+        f"{item['thumbnail']}"
     )
-
-
-print()
-
-print(
-    "File JSON:",
-    OUTPUT
-)
 
 print("=" * 70)
