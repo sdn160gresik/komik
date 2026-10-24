@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 5,
+  "total": 6,
   "komik": [
     {
       "urutan": 1,
@@ -467,6 +467,35 @@
         {
           "file": "halaman-12.jpg",
           "path": "ipas/Energi_Listrik/halaman-12.jpg"
+        }
+      ]
+    },
+    {
+      "urutan": 9999,
+      "reader": "literasi.html",
+      "mapel": "ipas",
+      "folder": "ipas/Litosfer_Hidrosfer_Atmosfer",
+      "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-00.jpg",
+      "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/ipas/Litosfer_Hidrosfer_Atmosfer/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "Litosfer_Hidrosfer_Atmosfer",
+      "total_halaman": 4,
+      "pages": [
+        {
+          "file": "halaman-01.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-01.jpg"
+        },
+        {
+          "file": "halaman-02.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-02.jpg"
+        },
+        {
+          "file": "halaman-03.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-03.jpg"
+        },
+        {
+          "file": "halaman-04.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-04.jpg"
         }
       ]
     },
