@@ -479,7 +479,7 @@
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/ipas/Litosfer_Hidrosfer_Atmosfer/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "Litosfer_Hidrosfer_Atmosfer",
-      "total_halaman": 7,
+      "total_halaman": 13,
       "pages": [
         {
           "file": "halaman-01.jpg",
@@ -508,6 +508,30 @@
         {
           "file": "halaman-07.jpg",
           "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-07.jpg"
+        },
+        {
+          "file": "halaman-08.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-08.jpg"
+        },
+        {
+          "file": "halaman-09.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-09.jpg"
+        },
+        {
+          "file": "halaman-10.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-10.jpg"
+        },
+        {
+          "file": "halaman-11.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-11.jpg"
+        },
+        {
+          "file": "halaman-12.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-12.jpg"
+        },
+        {
+          "file": "halaman-13.jpg",
+          "path": "ipas/Litosfer_Hidrosfer_Atmosfer/halaman-13.jpg"
         }
       ]
     },
