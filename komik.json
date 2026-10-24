@@ -4,12 +4,13 @@
   "komik": [
     {
       "urutan": 1,
+      "reader": "literasi.html",
       "mapel": "ipas",
-      "nama": "DIMANA_INDONESIA_BERADA?",
       "folder": "ipas/DIMANA_INDONESIA_BERADA?",
-      "thumbnail": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
+      "path": "ipas/DIMANA_INDONESIA_BERADA?/halaman-00.jpg",
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/ipas/DIMANA_INDONESIA_BERADA%3F/halaman-00.jpg",
-      "reader": "literasi-reader.html",
+      "file": "halaman-00.jpg",
+      "nama": "DIMANA_INDONESIA_BERADA?",
       "total_halaman": 57,
       "pages": [
         {
@@ -244,12 +245,13 @@
     },
     {
       "urutan": 2,
+      "reader": "literasi.html",
       "mapel": "mtk",
-      "nama": "bab1_A-D",
       "folder": "mtk/bab1_A-D",
-      "thumbnail": "mtk/bab1_A-D/halaman-00.jpg",
+      "path": "mtk/bab1_A-D/halaman-00.jpg",
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/bab1_A-D/halaman-00.jpg",
-      "reader": "literasi-reader.html",
+      "file": "halaman-00.jpg",
+      "nama": "bab1_A-D",
       "total_halaman": 26,
       "pages": [
         {
@@ -360,12 +362,13 @@
     },
     {
       "urutan": 3,
+      "reader": "literasi.html",
       "mapel": "ipas",
-      "nama": "MAJULAH_DAERAHKU",
       "folder": "ipas/MAJULAH_DAERAHKU",
-      "thumbnail": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
+      "path": "ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/ipas/MAJULAH_DAERAHKU/halaman-00.jpg",
-      "reader": "literasi-reader.html",
+      "file": "halaman-00.jpg",
+      "nama": "MAJULAH_DAERAHKU",
       "total_halaman": 9,
       "pages": [
         {
@@ -408,12 +411,13 @@
     },
     {
       "urutan": 9999,
+      "reader": "literasi.html",
       "mapel": "ipas",
-      "nama": "Energi_Listrik",
       "folder": "ipas/Energi_Listrik",
-      "thumbnail": "ipas/Energi_Listrik/halaman-00.jpg",
+      "path": "ipas/Energi_Listrik/halaman-00.jpg",
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/ipas/Energi_Listrik/halaman-00.jpg",
-      "reader": "literasi-reader.html",
+      "file": "halaman-00.jpg",
+      "nama": "Energi_Listrik",
       "total_halaman": 12,
       "pages": [
         {
@@ -468,12 +472,13 @@
     },
     {
       "urutan": 9999,
+      "reader": "literasi.html",
       "mapel": "mtk",
-      "nama": "bab2",
       "folder": "mtk/bab2",
-      "thumbnail": "mtk/bab2/halaman-00.jpg",
+      "path": "mtk/bab2/halaman-00.jpg",
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/bab2/halaman-00.jpg",
-      "reader": "literasi-reader.html",
+      "file": "halaman-00.jpg",
+      "nama": "bab2",
       "total_halaman": 12,
       "pages": [
         {
