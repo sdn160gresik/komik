@@ -1,3 +1,12 @@
+from pathlib import Path
+import json
+
+ROOT = Path(__file__).resolve().parent
+
+def main():
+    for thumbnail in ROOT.rglob("*"):
+        # Lanjutkan kode yang sudah ada
+        ...
 def main():
     comics = []
 
