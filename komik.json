@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 6,
+  "total": 7,
   "komik": [
     {
       "urutan": 1,
@@ -841,6 +841,35 @@
         {
           "file": "halaman-12.jpg",
           "path": "mtk/bab2/halaman-12.jpg"
+        }
+      ]
+    },
+    {
+      "urutan": 9999,
+      "reader": "literasi.html",
+      "mapel": "mtk",
+      "folder": "mtk/Misteri_Bilangan_Pecahan",
+      "path": "mtk/Misteri_Bilangan_Pecahan/halaman-00.jpg",
+      "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/Misteri_Bilangan_Pecahan/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "Misteri_Bilangan_Pecahan",
+      "total_halaman": 4,
+      "pages": [
+        {
+          "file": "halaman-01.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-01.jpg"
+        },
+        {
+          "file": "halaman-02.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-02.jpg"
+        },
+        {
+          "file": "halaman-03.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-03.jpg"
+        },
+        {
+          "file": "halaman-04.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-04.jpg"
         }
       ]
     }
