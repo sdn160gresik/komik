@@ -853,7 +853,7 @@
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/Misteri_Bilangan_Pecahan/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "Misteri_Bilangan_Pecahan",
-      "total_halaman": 20,
+      "total_halaman": 24,
       "pages": [
         {
           "file": "halaman-01.jpg",
@@ -934,6 +934,22 @@
         {
           "file": "halaman-20.jpg",
           "path": "mtk/Misteri_Bilangan_Pecahan/halaman-20.jpg"
+        },
+        {
+          "file": "halaman-21.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-21.jpg"
+        },
+        {
+          "file": "halaman-22.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-22.jpg"
+        },
+        {
+          "file": "halaman-23.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-23.jpg"
+        },
+        {
+          "file": "halaman-24.jpg",
+          "path": "mtk/Misteri_Bilangan_Pecahan/halaman-24.jpg"
         }
       ]
     }
