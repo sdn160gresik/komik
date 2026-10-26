@@ -1,6 +1,6 @@
 {
   "folder": ".",
-  "total": 7,
+  "total": 8,
   "komik": [
     {
       "urutan": 1,
@@ -1096,6 +1096,18 @@
           "path": "mtk/Misteri_Bilangan_Pecahan/halaman-60.jpg"
         }
       ]
+    },
+    {
+      "urutan": 9999,
+      "reader": "literasi.html",
+      "mapel": "mtk",
+      "folder": "mtk/MISTERI_MENARA_PECAHAN",
+      "path": "mtk/MISTERI_MENARA_PECAHAN/halaman-00.jpg",
+      "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/MISTERI_MENARA_PECAHAN/halaman-00.jpg",
+      "file": "halaman-00.jpg",
+      "nama": "MISTERI_MENARA_PECAHAN",
+      "total_halaman": 0,
+      "pages": []
     }
   ]
 }
