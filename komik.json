@@ -1106,7 +1106,7 @@
       "thumbnail_url": "https://raw.githubusercontent.com/sdn160gresik/komik/main/mtk/MISTERI_MENARA_PECAHAN/halaman-00.jpg",
       "file": "halaman-00.jpg",
       "nama": "MISTERI_MENARA_PECAHAN",
-      "total_halaman": 8,
+      "total_halaman": 10,
       "pages": [
         {
           "file": "halaman-01.jpg",
@@ -1139,6 +1139,14 @@
         {
           "file": "halaman-08.jpg",
           "path": "mtk/MISTERI_MENARA_PECAHAN/halaman-08.jpg"
+        },
+        {
+          "file": "halaman-09.jpg",
+          "path": "mtk/MISTERI_MENARA_PECAHAN/halaman-09.jpg"
+        },
+        {
+          "file": "halaman-10.jpg",
+          "path": "mtk/MISTERI_MENARA_PECAHAN/halaman-10.jpg"
         }
       ]
     }
